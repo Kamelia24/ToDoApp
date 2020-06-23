@@ -14,6 +14,7 @@ function HomePage(){
     <p>Or if you haven't registered yet:</p>
     <div className="signUp">
       <button class="button"><Link to="/SignUp">Sign Up</Link></button>
+      <button class="button"><Link to="/toDoList">Tasks</Link></button>
           </div>
           </header>
     </div>
