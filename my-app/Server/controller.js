@@ -13,7 +13,30 @@ client = new Client({
 client.connect();
 module.exports={
     checkUser:async function(){
-
+        console.log("income:",req.body);
+        let outp={};
+        let userPassword;
+        let password=req.body.password;
+        let isCorrect;
+        try{
+            res=await client.query(`SELECT password FROM quiz.users WHERE username='${req.body.username}'`)
+            userPassword=res.rows[0];
+            console.log("result:",userPassword,password);
+        }catch (err) {
+              console.log (err)
+        }
+        try{
+            res=await bcrypt.compare(password, userPassword.password)
+            isCorrect=res;
+            console.log(res)
+        }catch(err){
+            console.log('in bcrypt:',err)
+        }
+        if(userPassword!=undefined && isCorrect){
+            res.send('correct')
+        }else{outp="Incorect username or password,please try again!";
+        result.send(outp);
+        }
     },
     addUser:async function(req,result){
         console.log("income:",req.body);
@@ -52,9 +75,38 @@ module.exports={
         }
     },
     addTask:async function(){
-
+        console.log("income:",req.body);
+        let title=req.body.title;
+        let description=req.description;
+        //let location=req.body.location;
+        let deadline=req.body.deadline;
+        let hasUserIs;
+        try{
+            res=await client.query(`SELECT * FROM public.users WHERE username='${username}'`)
+            if(res.rows[0]===undefined){
+                hasUserIs=body;
+            }
+        }catch(err){
+            
+        }  
+        if(typeof hasUserIs !='string'){
+            
+            try{
+                res=await client.query(`insert into public.tasks
+                (userID,title,description,date_created,deadline)
+                values('${userID}','${title}','${description}','curren_timestamp','${deadline}')`);
+            }catch(err) {
+                console.log ('insert user info:',err);
+            }
+        }
     },
-    getTasks:async function(){
-
+    getTasks:async function(req,res){
+        try{
+            res=await client.query(`select * from public.tasks
+            where userID='${userID}'`);
+            res.send(res.rows)
+        }catch(err) {
+            console.log ('insert user info:',err);
+        }
     }
 }
