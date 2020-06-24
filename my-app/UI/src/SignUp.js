@@ -15,7 +15,9 @@ class SignUpForm extends Component{
 
         this.state = {
             name: '',
-            email: ''
+            age: '',
+            username:'',
+            password:''
         }
     }
     onChangeUserName(e) {
@@ -39,8 +41,8 @@ class SignUpForm extends Component{
             password: this.state.password,
             age: this.state.age
         };
-
-        axios.get('http://localhost:4000/addUser', userObject)
+console.log(userObject)
+        axios.post('http://localhost:4000/addUser', userObject)
             .then((res) => {
                 console.log(res)
             }).catch((error) => {
@@ -51,7 +53,7 @@ class SignUpForm extends Component{
     }
 render(){
     return (
-      <form >
+      <form  onSubmit={this.onSubmit}>
       <label for="username">Username:</label>
       <input type="text" id="username" value={this.state.username} name="username" onChange={this.onChangeUserUsername} placeholder="Username" />
   <br></br>
@@ -64,7 +66,7 @@ render(){
       <label for="age">Age:</label>
       <input type="number" id="age" name="age" value={this.state.age} onChange={this.onChangeUserAge} placeholder="Age" />
   <br></br>
-      <input type="submit" value="Submit" onClick = { this.register }/>
+      <input type="submit" value="Submit"/>
     </form>
     );
 }
