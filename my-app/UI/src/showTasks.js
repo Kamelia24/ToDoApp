@@ -1,16 +1,17 @@
 import React from 'react';
 import Tasks from "./tasks";
-import { Route,Switch,Link} from "react-router-dom";
+import { Link} from "react-router-dom";
 function showTask(){
     return(
         
             <div id="taskContainer">
         <div>
-            <div class="button1" ><Link to="/AddNewTask">New task</Link></div>
+            <div className="button1" ><Link to="/AddNewTask">New task</Link></div>
         
         </div>
     <h1 align="center">Your active tasks</h1>
     <table id="todo">
+        <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
@@ -18,7 +19,10 @@ function showTask(){
             <th>Deadline</th>
             <th>Finished</th>
         </tr>
+        </thead>
+        <tbody>
         <Tasks />
+        </tbody>
     </table>
     </div>
     )
