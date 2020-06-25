@@ -39,7 +39,8 @@ module.exports={
         }
     },
     addUser:async function(req,result){
-        console.log("income:",req.body);
+        console.log("income:",req);
+        //console.log("result:",result)
         let username=req.body.username;
         let body=req.body;
         let hasUserIs;
@@ -101,12 +102,15 @@ module.exports={
         }
     },
     getTasks:async function(req,res){
-        try{
+        /*try{
             res=await client.query(`select * from public.tasks
             where userID='${userID}'`);
             res.send(res.rows)
         }catch(err) {
             console.log ('insert user info:',err);
-        }
+        }*/
+        res.json({info: [
+            {title:"cleaning",description:"clean the room",dateCreated:"17.06.20",deadline:"19.06.20",status:"active"},
+            {title:"trash",description:"take out the trash",dateCreated:"18.06.20",deadline:"20.06.20",status:"active"}]})
     }
 }
