@@ -1,0 +1,30 @@
+{
+  "name": "to-do-app",
+  "version": "1.0.0",
+  "description": "project",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kamelia24/ToDoApp.git"
+  },
+  "keywords": [
+    "todoapp"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kamelia24/ToDoApp/issues"
+  },
+  "homepage": "https://github.com/Kamelia24/ToDoApp#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.2.1"
+  }
+}
