@@ -39,12 +39,13 @@ module.exports={
         }
     },
     addUser:async function(req,result){
-        console.log("income:",req);
+        console.log("income:",req.body);
         //console.log("result:",result)
+        //result.json({"send data":req})
         let username=req.body.username;
         let body=req.body;
         let hasUserIs;
-        try{
+        /*try{
             res=await client.query(`SELECT * FROM public.users WHERE username='${username}'`)
             if(res.rows[0]===undefined){
                 hasUserIs=body;
@@ -73,7 +74,8 @@ module.exports={
             }catch(err) {
                 console.log ('insert user info:',err);
             }
-        }
+        }*/
+        
     },
     addTask:async function(){
         console.log("income:",req.body);
@@ -102,6 +104,7 @@ module.exports={
         }
     },
     getTasks:async function(req,res){
+        console.log(req)
         /*try{
             res=await client.query(`select * from public.tasks
             where userID='${userID}'`);
