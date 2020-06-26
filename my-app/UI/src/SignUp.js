@@ -34,25 +34,25 @@ class SignUpForm extends Component{
     }
     onSubmit(e) {
         e.preventDefault()
-        const params = new URLSearchParams();
+        /*const params = new URLSearchParams();
         params.append('name', this.state.name);
         params.append('username', this.state.username);
         params.append('password', this.state.password);
-        params.append('age',this.state.age)
-        /*const userObject = {
+        params.append('age',this.state.age)*/
+        const userObject = {
             name: this.state.name,
             username: this.state.username,
             password: this.state.password,
             age: this.state.age
-        };*/
-console.log(params)
-        /*axios.post('http://localhost:4000/addUser', userObject)
+        };
+console.log(userObject)
+        axios.post('http://localhost:4000/addUser', userObject)
             .then((res) => {
                 console.log(res)
             }).catch((error) => {
                 console.log(error)
-            });*/
-            axios({method:'post',url:'http://localhost:4000/addUser',data:params});
+            });
+            //axios({method:'post',url:'http://localhost:4000/addUser',data:params});
 
         this.setState({ name: '', age: '' ,username: '',password: ''})
     }
