@@ -1,26 +1,38 @@
 import React from 'react';
 import axios from 'axios';
-//import ReactDOM from 'react-dom';
-//import { Route,Switch} from "react-router-dom";
-
-async function addTasks(){
+class Task extends React.Component{
+    state = {
+        isLoading: true,
+        Tasks: [],
+        errors: null
+      }
+      componentDidMount(){
     let Tasks;
-    try{
-let res =await axios.get('http://localhost:4000/getTasks')
-            /*.then((res) => {
+    axios.get('http://localhost:4000/getTasks')
+            .then((res) => {
                 console.log("res",res)
+                Tasks=res.data["info"];
+                this.setState({
+                    Tasks,
+                    isLoading:false
+                })
+            })/*.then(Tasks=>{
                 
-                
-            }).catch((error) => {
+                console.log(this.state)
+            }
+
+            )*/.catch((error) => {
                 console.log("errorrrr:",error)
-            });*/
-            Tasks=res.data["info"];
+                this.setState({error,isLoading:false})
+            });
+            
             console.log(Tasks)
+        }
 /*let Tasks=[
     {title:"cleaning",description:"clean the room",dateCreated:"17.06.20",deadline:"19.06.20",status:"active"},
     {title:"trash",description:"take out the trash",dateCreated:"18.06.20",deadline:"20.06.20",status:"active"}];
 */
-let output=Tasks.map((Task)=> <tr>
+/*let output=Tasks.map((Task)=> <tr>
     <td >{Task.title}</td>
     
     <td >{Task.description}</td>
@@ -31,15 +43,34 @@ let output=Tasks.map((Task)=> <tr>
     
     <td ><input type="checkbox" className="checkmark"></input></td>
     
-    </tr>); 
+    </tr>);*/
+    
+    render() {
+        const { Tasks ,isLoading } = this.state;
+        console.log(this.state)
     return(
-       
-        output
+        <React.Fragment>
+        {!isLoading ? (
+          Tasks.map((Task)=> <tr>
+          <td >{Task.title}</td>
+          
+          <td >{Task.description}</td>
+          
+          <td >{Task.dateCreated}</td>
+          
+          <td >{Task.deadline}</td>
+          
+          <td ><input type="checkbox" className="checkmark"></input></td>
+          
+          </tr>)
+        ) : (
+            <tr>
+          <td>Loading...</td>
+          </tr>
+        )}
+        
+        </React.Fragment>
     )
-    }catch(err){
-        console.log("Error!")
+        }
     }
-
-}
-
-export default addTasks;
+export default Task;
