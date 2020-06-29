@@ -12,14 +12,14 @@ client = new Client({
 });
 client.connect();
 module.exports={
-    checkUser:async function(){
+    checkUser:async function(req,result){
         console.log("income:",req.body);
         let outp={};
         let userPassword;
         let password=req.body.password;
         let isCorrect;
         try{
-            res=await client.query(`SELECT password FROM quiz.users WHERE username='${req.body.username}'`)
+            res=await client.query(`SELECT password FROM public.users WHERE username='${req.body.username}'`)
             userPassword=res.rows[0];
             console.log("result:",userPassword,password);
         }catch (err) {
@@ -33,28 +33,30 @@ module.exports={
             console.log('in bcrypt:',err)
         }
         if(userPassword!=undefined && isCorrect){
-            res.send('correct')
+            result.send('correct')
         }else{outp="Incorect username or password,please try again!";
         result.send(outp);
         }
     },
-    addUser:async function(req,result){
+    addUser:async function(req,res){
         console.log("income:",req.body);
         //console.log("result:",result)
-        //result.json({"send data":req})
+        //res.json({"send data":req.body})
         let username=req.body.username;
         let body=req.body;
         let hasUserIs;
-        /*try{
+        try{
             res=await client.query(`SELECT * FROM public.users WHERE username='${username}'`)
             if(res.rows[0]===undefined){
                 hasUserIs=body;
+                console.log("no users here")
             }
         }catch(err){
             result.send('User already exists')
         }  
         if(typeof hasUserIs !='string'){
-            let username=body.username;
+            console.log("getting ready for import")
+            //let username=body.username;
             let password=body.password;
             let age=body.age;
             let name=body.name;
@@ -64,6 +66,7 @@ module.exports={
             try{
                 res=await bcrypt.hash(password, saltRounds)
                 hashedPassword = res;
+                console.log("hashing the pass")
             }catch(err){
                 console.log('hash pass:',err)
             }
@@ -71,10 +74,11 @@ module.exports={
                 res=await client.query(`insert into public.users
                 (name,username,password,age)
                 values('${name}','${username}','${hashedPassword}',${age})`);
+            console.log("inserting the data")
             }catch(err) {
                 console.log ('insert user info:',err);
             }
-        }*/
+        }
         
     },
     addTask:async function(){
