@@ -46,14 +46,14 @@ class SignUpForm extends Component{
             age: this.state.age
         };
 console.log(userObject)
-        axios.post('http://localhost:4000/addUser', userObject)
+        /*axios.post('/addUser', userObject)
             .then((res) => {
-                console.log(res)
+                console.log("in Axios",userObject)
             }).catch((error) => {
                 console.log(error)
-            });
-            //axios({method:'post',url:'http://localhost:4000/addUser',data:params});
-
+            });*/
+            axios({method:'post',url:'http://localhost:5000/addUser',data:userObject});
+            console.log(userObject)
         this.setState({ name: '', age: '' ,username: '',password: ''})
     }
 render(){
