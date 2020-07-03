@@ -2,6 +2,9 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { Client} = require('pg');
+const jwt = require('jsonwebtoken')
+const {JWT_SECRET}=require('./keys');
+const requireLogin = require('./requireLogin')
 console.log(process.env.DB_HOST);
 client = new Client({
     host: process.env.DB_HOST,
@@ -19,26 +22,33 @@ module.exports={
         let password=req.body.password;
         let isCorrect;
         try{
-            res=await client.query(`SELECT password FROM public.users WHERE username='${req.body.username}'`)
-            userPassword=res.rows[0];
-            console.log("result:",userPassword,password);
+            res=await client.query(`SELECT password,id FROM public.users WHERE username='${req.body.username}'`)
+            userPassword=res.rows[0]["password"];
+            userID=res.rows[0]["id"];
+            console.log("result:",userPassword,password,userID);
         }catch (err) {
               console.log (err)
         }
         try{
-            res=await bcrypt.compare(password, userPassword.password)
+            res=await bcrypt.compare(password, userPassword)
             isCorrect=res;
             console.log(res)
         }catch(err){
             console.log('in bcrypt:',err)
         }
         if(userPassword!=undefined && isCorrect){
-            result.send('correct')
+            //result.send('correct')
+            const token = jwt.sign({id:userID},JWT_SECRET);
+            result.json({token:token})
+            console.log(token)
         }else{outp="Incorect username or password,please try again!";
         result.send(outp);
         }
     },
-    addUser:async function(req,res){
+    protected: function (req,res){
+        res.send("hello user")
+    },
+    addUser:async function(req,result){
         console.log("income:",req.body);
         //console.log("result:",result)
         //res.json({"send data":req.body})
@@ -75,6 +85,7 @@ module.exports={
                 (name,username,password,age)
                 values('${name}','${username}','${hashedPassword}',${age})`);
             console.log("inserting the data")
+            result.json('success');
             }catch(err) {
                 console.log ('insert user info:',err);
             }
