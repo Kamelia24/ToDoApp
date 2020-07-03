@@ -1,7 +1,9 @@
-import React,{Component} from "react";
+import React,{useState} from "react";
 import axios from 'axios';
-class SignInForm extends Component{
-    constructor(props) {
+import {Link,useHistory} from 'react-router-dom';
+const SignInForm =()=>{
+    const history=useHistory();
+    /*constructor(props) {
         super(props)
         this.onChangeUserUsername = this.onChangeUserUsername.bind(this);
         this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
@@ -25,7 +27,7 @@ class SignInForm extends Component{
         params.append('username', this.state.username);
         params.append('password', this.state.password);
         params.append('age',this.state.age)*/
-        const userObject = {
+        /*const userObject = {
             username: this.state.username,
             password: this.state.password
         };
@@ -37,23 +39,41 @@ console.log(userObject)
                 console.log(error)
             });
             /*axios({method:'post',url:'http://localhost:5000/checkUser',data:userObject});*/
-            console.log(userObject)
+            /*console.log(userObject)
         this.setState({ name: '', age: '' ,username: '',password: ''})
+    }*/
+    
+    const [password,setPassword]=useState("");
+    const [username,setUsername]=useState("");
+    const Post=()=>{
+        const userObject = {
+            username:username,
+            password:password
+        };
+        axios.post('/checkUser', userObject)
+            .then((res) => {
+                //localStorage.setItem("jwt",res.token)
+                //localStorage.setItem("user",JSON.stringify(res.user))
+                console.log(res)
+                history.push('/ToDoList')
+            }).catch((error) => {
+                console.log(error)
+            });
     }
-    render (){
+        console.log("in sign in")
         return (
-            <form onSubmit={this.onSubmit}>
+            <form>
             <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Username"  value={this.state.username} onChange={this.onChangeUserUsername} />
+            <input type="text" id="username" name="username" placeholder="Username"  value={username} onChange={(e)=>setUsername(e.target.value)} />
   <br></br>
             <label htmlFor="pass">Password:</label>
-            <input type="password" id="pass" name="pass" placeholder="Password" value={this.state.password} onChange={this.onChangeUserPassword} />
+            <input type="password" id="pass" name="pass" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
   <br></br>
       
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"  onClick={()=>Post()}/>
             </form>
         );
-    }
+    
  
         
 }
