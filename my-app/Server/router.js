@@ -8,6 +8,6 @@ router.get('/protected',requireLogin, (req,res)=>{
 });
 router.post('/addUser',controller.addUser); 
 router.get('/addTask',controller.addTask); 
-router.get('/getTasks',controller.getTasks); 
+router.get('/getTasks',requireLogin,controller.getTasks); 
 //router.get('/',controller.);
 module.exports = router;
