@@ -45,7 +45,8 @@ console.log(userObject)
     
     const [password,setPassword]=useState("");
     const [username,setUsername]=useState("");
-    const Post=()=>{
+    const Post=(e)=>{
+        e.preventDefault();
         const userObject = {
             username:username,
             password:password
@@ -55,27 +56,25 @@ console.log(userObject)
                 //localStorage.setItem("jwt",res.token)
                 //localStorage.setItem("user",JSON.stringify(res.user))
                 console.log(res)
+                localStorage.setItem("jwt",res.data.token)
+                localStorage.setItem("userID",res.data.userID)
+                //console.log(localStorage.getItem("jwt"))
                 history.push('/ToDoList')
             }).catch((error) => {
                 console.log(error)
             });
     }
-        console.log("in sign in")
-        return (
-            <form>
+    return (
+        <form>
             <label htmlFor="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Username"  value={username} onChange={(e)=>setUsername(e.target.value)} />
-  <br></br>
+            <br></br>
             <label htmlFor="pass">Password:</label>
             <input type="password" id="pass" name="pass" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
-  <br></br>
-      
-            <input type="submit" value="Submit"  onClick={()=>Post()}/>
-            </form>
-        );
-    
- 
-        
+            <br></br>
+            <input type="submit" value="Submit"  onClick={(e)=>Post(e)}/>
+        </form>
+    );       
 }
 export default SignInForm;
 
