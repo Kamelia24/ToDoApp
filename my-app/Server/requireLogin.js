@@ -17,13 +17,18 @@ module.exports=(req,res,next)=>{
     const token = authorization.replace("Bearer ","")
     jwt.verify(token,JWT_SECRET,(err,payload)=>{
         if(err){
-          return  res.json({error:"you must be logged in1S"})
+          return  res.json({error:"you must be logged in auth"})
         }
-        const{id}=payload
-        client.query(`Select * from public.users where id='${id}'`).then(userData=>{
+        const {id}=payload
+     
+            client.query(`Select * from public.users where id='${id}'`)
+            .then(userData=>{
             req.user=userData.rows;
-            res.send("success")
+            //res.send("success")
+            console.log(req.user);
+            next()
         })
-        next()
+   
+        
     })
 }
