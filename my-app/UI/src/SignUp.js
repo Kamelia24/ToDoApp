@@ -62,24 +62,8 @@ console.log(userObject)
     const [age,setAge]=useState("");
     const [password,setPassword]=useState("");
     const [username,setUsername]=useState("");
-    const Post=()=>{
-    fetch("http://localhost:5000/addUser",{
-        method:"post",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            name,
-            age,
-            password,
-            username
-        })
-    }).then(res=>res.json())
-    .then(data=>{
-        console.log(data)
-        history.push('/LogIn')
-    })
-    /*const Post=()=>{
+    const Post=(e)=>{
+        e.preventDefault();
         const userObject = {
             name:name,
             username:username,
@@ -92,24 +76,44 @@ console.log(userObject)
                 history.push('/LogIn')
             }).catch((error) => {
                 console.log(error)
-            });*/
+            });
     }
     return (
-      <form>
-      <label htmlFor="username">Username:</label>
-      <input type="text" id="username" value={username} name="username" onChange={(e)=>setUsername(e.target.value)} placeholder="Username" />
-  <br></br>
-      <label htmlFor="pass">Password:</label>
-      <input type="password" id="pass" name="pass" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password" />
-  <br></br>
-      <label htmlFor="name">Name:</label>
-      <input type="text" id="name" name="name" value={name} onChange={(e)=>setName(e.target.value)} placeholder="First name" />
-      <br></br>
-      <label htmlFor="age">Age:</label>
-      <input type="number" id="age" name="age" value={age} onChange={(e)=>setAge(e.target.value)} placeholder="Age" />
-  <br></br>
-      <input type="submit" value="Submit" onClick={()=>Post()}/>
-    </form>
+        <form onSubmit={(e)=>Post(e)}>
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username"
+            value={username}
+            name="username"
+            onChange={(e)=>setUsername(e.target.value)}
+            placeholder="Username" />
+            <br></br>
+
+            <label htmlFor="pass">Password:</label>
+            <input type="password" id="pass"
+            name="pass"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+            placeholder="Password" />
+            <br></br>
+
+            <label htmlFor="name">Name:</label>
+            <input type="text" id="name"
+            name="name"
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
+            placeholder="First name" />
+            <br></br>
+
+            <label htmlFor="age">Age:</label>
+            <input type="number" id="age"
+            name="age"
+            value={age}
+            onChange={(e)=>setAge(e.target.value)}
+            placeholder="Age" />
+            <br></br>
+
+            <input type="submit" value="Submit" />
+        </form>
     );
 
   }
