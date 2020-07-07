@@ -40,7 +40,7 @@ module.exports={
         if(userPassword!=undefined && isCorrect){
             //result.send('correct')
             const token = jwt.sign({id:userID},JWT_SECRET);
-            result.json({token:token})
+            result.json({token:token,userID:userID})
             console.log(token)
         }else{outp="Incorect username or password,please try again!";
         result.send(outp);
@@ -55,21 +55,21 @@ module.exports={
         //res.json({"send data":req.body})
         const username=req.body.username;
         const body=req.body;
-        let hasUserIs=false;
+        let hasUserIs=0;
         try{
             res=await client.query(`SELECT * FROM public.users WHERE username='${username}'`)
             if(res.rows[0]===undefined){
-                hasUserIs=true;
+                hasUserIs=body;
 
                 console.log("no users here")
                 
             }else{
-               return result.send('This username is already taken')
+                result.send('User already exists')
             }
         }catch(err){
-            result.send('This username is already taken')
+            result.send('User already exists')
         }  
-        if(!hasUserIs){
+        if(hasUserIs !=0){
             console.log("getting ready for import")
             //let username=body.username;
             let password=body.password;
@@ -125,17 +125,30 @@ module.exports={
             }
         }
     },
-    getTasks:async function(req,res){
-        console.log(req)
-        /*try{
+    getTasks:async function(req,result){
+       console.log(req.user[0].id)
+       userID=req.user[0].id;
+       let Tasks={};
+        try{
             res=await client.query(`select * from public.tasks
-            where userID='${userID}'`);
-            res.send(res.rows)
+            where "userID"='${userID}'`);
+            console.log({body:res.rows.body})
+            if(res.rows.body===undefined){
+                Tasks.title="no tasks added";
+                Tasks.description="---";
+                Tasks.dateCreated="---";
+                Tasks.deadline="---";
+
+            }else{
+                Tasks=res.rows.body;
+            }
+            result.send(Tasks)
         }catch(err) {
-            console.log ('insert user info:',err);
-        }*/
-        res.json({info: [
+            console.log ('get tasks:',err);
+        }
+
+        /*result.json({info: [
             {title:"cleaning",description:"clean the room",dateCreated:"17.06.20",deadline:"19.06.20",status:"active"},
-            {title:"trash",description:"take out the trash",dateCreated:"18.06.20",deadline:"20.06.20",status:"active"}]})
+            {title:"trash",description:"take out the trash",dateCreated:"18.06.20",deadline:"20.06.20",status:"active"}]})*/
     }
 }
