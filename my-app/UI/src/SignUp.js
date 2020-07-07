@@ -63,6 +63,23 @@ console.log(userObject)
     const [password,setPassword]=useState("");
     const [username,setUsername]=useState("");
     const Post=()=>{
+    fetch("http://localhost:5000/addUser",{
+        method:"post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            name,
+            age,
+            password,
+            username
+        })
+    }).then(res=>res.json())
+    .then(data=>{
+        console.log(data)
+        history.push('/LogIn')
+    })
+    /*const Post=()=>{
         const userObject = {
             name:name,
             username:username,
@@ -72,10 +89,10 @@ console.log(userObject)
         axios.post('http://localhost:5000/addUser', userObject)
             .then((res) => {
                 console.log("in Axios",userObject,res)
-                history.push('/SignIn')
+                history.push('/LogIn')
             }).catch((error) => {
                 console.log(error)
-            });
+            });*/
     }
     return (
       <form>
