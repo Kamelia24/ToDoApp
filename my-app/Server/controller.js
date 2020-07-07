@@ -28,6 +28,7 @@ module.exports={
             console.log("result:",userPassword,password,userID);
         }catch (err) {
               console.log (err)
+              result.json(err)
         }
         try{
             res=await bcrypt.compare(password, userPassword)
@@ -52,19 +53,23 @@ module.exports={
         console.log("income:",req.body);
         //console.log("result:",result)
         //res.json({"send data":req.body})
-        let username=req.body.username;
-        let body=req.body;
-        let hasUserIs;
+        const username=req.body.username;
+        const body=req.body;
+        let hasUserIs=false;
         try{
             res=await client.query(`SELECT * FROM public.users WHERE username='${username}'`)
             if(res.rows[0]===undefined){
-                hasUserIs=body;
+                hasUserIs=true;
+
                 console.log("no users here")
+                
+            }else{
+               return result.send('This username is already taken')
             }
         }catch(err){
-            result.send('User already exists')
+            result.send('This username is already taken')
         }  
-        if(typeof hasUserIs !='string'){
+        if(!hasUserIs){
             console.log("getting ready for import")
             //let username=body.username;
             let password=body.password;
@@ -79,6 +84,7 @@ module.exports={
                 console.log("hashing the pass")
             }catch(err){
                 console.log('hash pass:',err)
+                result.json(err)
             }
             try{
                 res=await client.query(`insert into public.users
@@ -88,6 +94,7 @@ module.exports={
             result.json('success');
             }catch(err) {
                 console.log ('insert user info:',err);
+                result.json(err)
             }
         }
         
