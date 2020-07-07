@@ -9,11 +9,11 @@ function HomePage(){
           Welcome to ToDO :) <br></br> An app where you can write each of your tasks.
         </p>
         <div className="signIn">
-      <button className="button"><Link to="/SignIn">Sign In</Link></button>
+      <button className="button"><Link to="/LogIn">Sign In</Link></button>
     </div>
     <p>Or if you haven't registered yet:</p>
     <div className="signUp">
-      <button className="button"><Link to="/SignUp">Sign Up</Link></button>
+      <button className="button"><Link to="/Register">Sign Up</Link></button>
       <button className="button"><Link to="/toDoList">Tasks</Link></button>
           </div>
           </header>
