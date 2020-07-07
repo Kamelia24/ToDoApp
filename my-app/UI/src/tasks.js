@@ -8,7 +8,12 @@ class Task extends React.Component{
       }
       componentDidMount(){
     let Tasks;
-    axios.get('http://localhost:4000/getTasks')
+    console.log(localStorage.getItem("jwt"))
+    axios.get('http://localhost:5000/getTasks',{
+        headers: {
+        'Authorization':"Bearer "+localStorage.getItem("jwt")
+        }
+    })
             .then((res) => {
                 console.log("res",res)
                 Tasks=res.data["info"];
@@ -16,17 +21,17 @@ class Task extends React.Component{
                     Tasks,
                     isLoading:false
                 })
+                 console.log(Tasks)
             })/*.then(Tasks=>{
                 
                 console.log(this.state)
             }
-
             )*/.catch((error) => {
                 console.log("errorrrr:",error)
                 this.setState({error,isLoading:false})
             });
             
-            console.log(Tasks)
+           
         }
 /*let Tasks=[
     {title:"cleaning",description:"clean the room",dateCreated:"17.06.20",deadline:"19.06.20",status:"active"},
