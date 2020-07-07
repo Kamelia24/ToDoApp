@@ -13,8 +13,8 @@ function Home() {
     
         <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/SignIn" component={SignIn} />
-        <Route path="/SignUp" component={SignUp} />
+        <Route path="/LogIn" component={SignIn} />
+        <Route path="/Register" component={SignUp} />
         <Route path="/ToDoList" component={ToDoList}/>
         <Route path="/AddNewTask" component={addTask} />
         </Switch>
