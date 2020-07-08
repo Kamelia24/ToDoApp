@@ -43,7 +43,8 @@ module.exports={
        let tasksList=[];
         try{
             res=await client.query(`select * from public.tasks
-            where "userID"='${userID}'`);
+            where "userID"='${userID}'
+            order by deadline asc`);
             console.log({body:res.rows.body})
             if(res.rows.body===undefined){
                 Tasks.title="no tasks added";
