@@ -2,9 +2,8 @@ import React,{useState}  from "react";
 import {Link,useHistory} from 'react-router-dom';
 //import { render } from "@testing-library/react";
 import axios from 'axios';
-
 const SignUpForm=()=>{
-const history=useHistory();
+    const history=useHistory();
     /*constructor(props) {
         super(props)
 
@@ -62,7 +61,7 @@ console.log(userObject)
     const [age,setAge]=useState("");
     const [password,setPassword]=useState("");
     const [username,setUsername]=useState("");
-    const Post=(e)=>{
+    const signUpRequest=(e)=>{
         e.preventDefault();
         const userObject = {
             name:name,
@@ -71,15 +70,15 @@ console.log(userObject)
             age:age
         };
         axios.post('http://localhost:5000/addUser', userObject)
-            .then((res) => {
-                console.log("in Axios",userObject,res)
-                history.push('/LogIn')
-            }).catch((error) => {
-                console.log(error)
-            });
+        .then((res) => {
+            console.log("in Axios",userObject,res)
+            history.push('/LogIn')
+        }).catch((error) => {
+            console.log(error)
+        });
     }
     return (
-        <form onSubmit={(e)=>Post(e)}>
+        <form onSubmit={(e)=>signUpRequest(e)}>
             <label htmlFor="username">Username:</label>
             <input type="text" id="username"
             value={username}
@@ -115,6 +114,5 @@ console.log(userObject)
             <input type="submit" value="Submit" />
         </form>
     );
-
-  }
-  export default SignUpForm;
+}
+export default SignUpForm;
