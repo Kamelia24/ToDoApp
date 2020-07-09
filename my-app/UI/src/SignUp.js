@@ -1,7 +1,8 @@
 import React,{useState}  from "react";
-import {Link,useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 //import { render } from "@testing-library/react";
 import axios from 'axios';
+import M from 'materialize-css'
 const SignUpForm=()=>{
     const history=useHistory();
     /*constructor(props) {
@@ -75,6 +76,7 @@ console.log(userObject)
             history.push('/LogIn')
         }).catch((error) => {
             console.log(error)
+            M.toast({html: 'User already exists'})
         });
     }
     return (
