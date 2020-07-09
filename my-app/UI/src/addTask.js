@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
-const addTask =()=>{
+function addTasks(){
     const history=useHistory();
     const [title,setTitle]=useState("");
     const [description,setDescription]=useState("");
@@ -24,7 +24,7 @@ const addTask =()=>{
             });
     }
     return(
-        <div id="addTask">
+        <div id="addNewTask">
             <h1>Add new task:</h1>
             <form  onSubmit={(e)=>Post(e)}>
                 <label for="title">Title*:</label>
@@ -60,4 +60,4 @@ const addTask =()=>{
         </div>
     );
 }
-export default addTask;
+export default addTasks;
