@@ -1,15 +1,16 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import M from 'materialize-css';
 const Task =()=>{
     /*state = {
         isLoading: true,
         Tasks: [],
         errors: null
     }*/
-    let [isLoading,setIsLoading]=useState("false");
-    let [Tasks,setTasks]=useState("");
+    let [isLoading,setIsLoading]=useState(true);
+    let [tasks,setTasks]=useState([]);
     useEffect(() => {
-        let Tasks;
+        //let Tasks;
         console.log(localStorage.getItem("jwt"))
         axios.get('http://localhost:5000/getTasks',{
             headers: {
@@ -18,19 +19,20 @@ const Task =()=>{
         })
         .then((res) => {
             console.log("res",res)
-            Tasks=res.data["info"];
+            //tasks=;
             /*this.setState({
                 Tasks,
                 isLoading:false
             })*/
-            setIsLoading("false");
-            setTasks(Tasks);
-            console.log(Tasks,isLoading)
+            setIsLoading(false);
+            setTasks(res.data["info"]);
+            console.log(tasks,isLoading)
         })
         .catch((error) => {
             console.log("errorrrr:",error)
             //this.setState({error,isLoading:false})
-            setIsLoading("false");
+            M.toast({html: error})
+            setIsLoading(false);
             console.log(isLoading);
         });
     }, [])
@@ -56,27 +58,27 @@ const Task =()=>{
         //console.log(this.state)
         return (
             
-            <React.Fragment>
-                {true ? (
-                Tasks.map((Task)=> <tr>
-                    <td >{Task.title}</td>
+            
+                !isLoading ? (
+                tasks.map((task)=> <tr key={task.id+2}>
+                    <td >{task.title}</td>
           
-                    <td >{Task.description}</td>
+                    <td  >{task.description}</td>
           
-                    <td >{Task.dateCreated}</td>
+                    <td  >{task.dateCreated}</td>
           
-                    <td >{Task.deadline}</td>
+                    <td  >{task.deadline}</td>
           
                     <td ><input type="checkbox" className="checkmark"></input></td>
           
                 </tr>)
                 ) : (
-            <tr>
-                <td>Loading...</td>
+            <tr key={1}> 
+                <td >Loading...</td>
             </tr>
-            )}
+            )
         
-        </React.Fragment>
+        
         )
     
 }
