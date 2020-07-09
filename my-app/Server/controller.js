@@ -51,6 +51,7 @@ module.exports={
                 Tasks.description="---";
                 Tasks.dateCreated="---";
                 Tasks.deadline="---";
+                Tasks.id=1;
 
             }else{
                 Tasks=res.rows.body;
@@ -60,6 +61,7 @@ module.exports={
             result.json({info:tasksList})
         }catch(err) {
             console.log ('get tasks:',err);
+            result.status(204).json({err:err})
         }
 
         /*result.json({info: [
