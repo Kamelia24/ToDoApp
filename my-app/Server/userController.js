@@ -27,14 +27,14 @@ module.exports={
             console.log("result:",userPassword,password,userID);
         }catch (err) {
               console.log (err)
-              result.json(err)
+             return result.status(401).json('No such user')
         }
         try{
             res=await bcrypt.compare(password, userPassword)
             isCorrect=res;
             console.log(res)
         }catch(err){
-            console.log('in bcrypt:',err)
+           return console.log('in bcrypt:',err)
         }
         if(userPassword!=undefined && isCorrect){
             //result.send('correct')
@@ -43,7 +43,7 @@ module.exports={
             console.log(token)
         }else{
             outp="Incorect username or password,please try again!";
-            result.send(outp);
+           return result.status(401).send(outp);
         }
     },
     addUser:async function(req,result){
@@ -59,10 +59,10 @@ module.exports={
                 hasUserIs=body;
                 console.log("no users here")
             }else{
-                result.send('User already exists')
+                result.status(401).send('User already exists')
             }
         }catch(err){
-            result.send('User already exists')
+            result.status(401).send('User already exists')
         }  
         if(hasUserIs !=0){
             console.log("getting ready for import")
@@ -73,14 +73,14 @@ module.exports={
             let hashedPassword;
             console.log(username,password,age,name)
             if(age<10 || age >90){
-                result.send("Age is not valid!");
+               return result.status(401).send("Age is not valid!");
             }
             try{
                 res=await bcrypt.hash(password, saltRounds)
                 hashedPassword = res;
                 console.log("hashing the pass")
             }catch(err){
-                console.log('hash pass:',err)
+               return console.status(401).log('hash pass:',err)
                 result.json(err)
             }
             try{
@@ -90,7 +90,7 @@ module.exports={
                 console.log("inserting the data")
                 result.json('success');
             }catch(err) {
-                console.log ('insert user info:',err);
+               return console.status(401).log ('insert user info:',err);
                 result.json(err)
             }
         }
