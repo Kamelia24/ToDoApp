@@ -1,13 +1,11 @@
 import React from 'react';
-//import logo from './logoCheckBox.png';
 import './App.css';
 import { Route,Switch} from "react-router-dom";
 import HomePage from "./homePage"
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ToDoList from "./showTasks";
-import addTasks from "./addTask";
-//import HomePage from "./index";
+import addTasks from "./addTaskForm";
 function Home() {
     return (
         <Switch>
@@ -15,7 +13,7 @@ function Home() {
         <Route path="/LogIn" component={SignIn} />
         <Route path="/Register" component={SignUp} />
         <Route path="/ToDoList" component={ToDoList}/>
-        <Route path="/AddTask" component={addTasks} />
+        <Route path="/AddTasks" component={addTasks} />
         </Switch>
     );
 }
