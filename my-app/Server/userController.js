@@ -37,7 +37,6 @@ module.exports={
            return console.log('in bcrypt:',err)
         }
         if(userPassword!=undefined && isCorrect){
-            //result.send('correct')
             const token = jwt.sign({id:userID},JWT_SECRET);
             result.json({token:token,userID:userID})
             console.log(token)
@@ -48,8 +47,6 @@ module.exports={
     },
     addUser:async function(req,result){
         console.log("income:",req.body);
-        //console.log("result:",result)
-        //res.json({"send data":req.body})
         const username=req.body.username;
         const body=req.body;
         let hasUserIs=0;
@@ -66,7 +63,6 @@ module.exports={
         }  
         if(hasUserIs !=0){
             console.log("getting ready for import")
-            //let username=body.username;
             let password=body.password;
             let age=body.age;
             let name=body.name;
@@ -80,8 +76,8 @@ module.exports={
                 hashedPassword = res;
                 console.log("hashing the pass")
             }catch(err){
-               return console.status(401).log('hash pass:',err)
-                result.json(err)
+                console.log('hash pass:',err)
+                return result.status(401).json(err)
             }
             try{
                 res=await client.query(`insert into public.users
@@ -90,8 +86,8 @@ module.exports={
                 console.log("inserting the data")
                 result.json('success');
             }catch(err) {
-               return console.status(401).log ('insert user info:',err);
-                result.json(err)
+                console.log ('insert user info:',err);
+                return result.status(401).json(err)
             }
         }
     }
