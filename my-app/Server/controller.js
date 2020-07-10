@@ -10,29 +10,34 @@ client = new Client({
 });
 client.connect();
 module.exports={
-    addTask:async function(){
+    addTask:async function(req,result){
         console.log("income:",req.body);
         let title=req.body.title;
         let description=req.description;
+        userID=req.user[0].id;
         //let location=req.body.location;
         let deadline=req.body.deadline;
         let hasUserIs;
         try{
-            res=await client.query(`SELECT * FROM public.users WHERE username='${username}'`)
+            res=await client.query(`SELECT * FROM public.users WHERE id='${userID}'`)
             if(res.rows[0]===undefined){
                 hasUserIs=body;
+                console.log(hasUserIs);
             }
         }catch(err){
-            
+            console.log("err",err)
         }  
         if(typeof hasUserIs !='string'){
-            
+            console.log("addTask")
             try{
                 res=await client.query(`insert into public.tasks
-                (userID,title,description,date_created,deadline)
-                values('${userID}','${title}','${description}','curren_timestamp','${deadline}')`);
+                ("userID",title,description,date_created,deadline)
+                values('${userID}','${title}','${description}',current_timestamp,'${deadline}')`);
+                console.log("adding")
+               return result.status(200).json({res:"success"})
             }catch(err) {
                 console.log ('insert user info:',err);
+                
             }
         }
     },
@@ -45,8 +50,8 @@ module.exports={
             res=await client.query(`select * from public.tasks
             where "userID"='${userID}'
             order by deadline asc`);
-            console.log({body:res.rows.body})
-            if(res.rows.body===undefined){
+            console.log({body:res.rows})
+            if(res.rows===undefined){
                 Tasks.title="no tasks added";
                 Tasks.description="---";
                 Tasks.dateCreated="---";
@@ -54,18 +59,14 @@ module.exports={
                 Tasks.id=1;
 
             }else{
-                Tasks=res.rows.body;
+                Tasks=res.rows;
             }
-            tasksList.push(Tasks);
+            tasksList=Tasks;
             console.log(tasksList)
             result.json({info:tasksList})
         }catch(err) {
             console.log ('get tasks:',err);
             result.status(204).json({err:err})
         }
-
-        /*result.json({info: [
-            {title:"cleaning",description:"clean the room",dateCreated:"17.06.20",deadline:"19.06.20",status:"active"},
-            {title:"trash",description:"take out the trash",dateCreated:"18.06.20",deadline:"20.06.20",status:"active"}]})*/
     }
 }
