@@ -5,7 +5,7 @@ function showTask(){
     return(
         <div id="taskContainer">
             <div>
-                <button className="button1" ><Link to="/AddTask">New task</Link></button>
+                
             </div>
             <h1 align="center">Your active tasks</h1>
             <table id="todo">
