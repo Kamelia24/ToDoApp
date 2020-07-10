@@ -11,6 +11,7 @@ client = new Client({
 client.connect();
 module.exports=(req,res,next)=>{
     const {authorization} =req.headers;
+    console.log("auth")
     if(!authorization){
        return res.json({error:"you must be logged in"})
     }
@@ -20,15 +21,13 @@ module.exports=(req,res,next)=>{
           return  res.json({error:"you must be logged in auth"})
         }
         const {id}=payload
-     
+     console.log("auth finish")
             client.query(`Select * from public.users where id='${id}'`)
             .then(userData=>{
             req.user=userData.rows;
             //res.send("success")
             console.log(req.user);
             next()
-        })
-   
-        
+        })  
     })
 }
