@@ -15,6 +15,7 @@ function HomePage(){
           <div className="signUp">
             <button className="button"><Link to="/Register">Sign Up</Link></button>
             <button className="button"><Link to="/toDoList">Tasks</Link></button>
+            <button className="button1" ><Link to="/AddTasks">New task</Link></button>
           </div>
         </header>
       </div>
