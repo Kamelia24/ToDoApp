@@ -14,12 +14,9 @@ const SignInForm = () => {
         };
         axios.post('/checkUser', userObject)
         .then((res) => {
-            //localStorage.setItem("jwt",res.token)
-            //localStorage.setItem("user",JSON.stringify(res.user))
             console.log(res)
             localStorage.setItem("jwt",res.data.token)
             localStorage.setItem("userID",res.data.userID)
-            //console.log(localStorage.getItem("jwt"))
             history.push('/ToDoList')
         }).catch((error) => {
             console.log(error)
