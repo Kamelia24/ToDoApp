@@ -5,7 +5,7 @@ import HomePage from "./homePage"
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ToDoList from "./showTasks";
-import addTasks from "./addTaskForm";
+import AddTasks from "./addTaskForm";
 function Home() {
     return (
         <Switch>
@@ -13,7 +13,7 @@ function Home() {
         <Route path="/LogIn" component={SignIn} />
         <Route path="/Register" component={SignUp} />
         <Route path="/ToDoList" component={ToDoList}/>
-        <Route path="/AddTasks" component={addTasks} />
+        <Route path="/AddTasks" component={AddTasks} />
         </Switch>
     );
 }
