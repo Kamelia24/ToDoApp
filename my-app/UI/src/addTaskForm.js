@@ -1,7 +1,7 @@
 import React,{useState}  from "react";
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
-const SignUpForm=()=>{
+const AddTask=()=>{
     const history=useHistory();
     const [location,setLocation]=useState("");
     const [deadline,setDeadline]=useState("");
@@ -69,4 +69,4 @@ const SignUpForm=()=>{
         </div>
     );
 }
-export default SignUpForm;
+export default AddTask;
