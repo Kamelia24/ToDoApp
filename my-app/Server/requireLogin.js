@@ -13,13 +13,15 @@ module.exports=(req,res,next)=>{
     const {authorization} =req.headers;
     console.log("auth")
     if(!authorization){
-       return res.json({error:"you must be logged in"})
-    }
+        console.log("error log in")
+       return res.status(401).json({error:"you must be logged in"})
+    }else{
     const token = authorization.replace("Bearer ","")
     jwt.verify(token,JWT_SECRET,(err,payload)=>{
         if(err){
-          return  res.json({error:"you must be logged in auth"})
-        }
+            console.log("error log in")
+          return  res.status(401).json({error:"you must be logged in"})
+        }else{
         const {id}=payload
      console.log("auth finish")
             client.query(`Select * from public.users where id='${id}'`)
@@ -29,5 +31,7 @@ module.exports=(req,res,next)=>{
             console.log(req.user);
             next()
         })  
+    }
     })
+}
 }
