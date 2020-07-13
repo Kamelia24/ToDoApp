@@ -7,4 +7,5 @@ router.post('/checkUser',userController.checkUser);
 router.post('/addUser',userController.addUser); 
 router.post('/addTask',requireLogin,controller.addTask); 
 router.get('/getTasks',requireLogin,controller.getTasks); 
+router.post('/removeTask',requireLogin,controller.removeTask)
 module.exports = router;
