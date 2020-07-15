@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { Client } = require('pg');
 const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('./keys');
+const { JWT_SECRET } = require('../keys');
 console.log(process.env.DB_HOST);
 client = new Client({
     host: process.env.DB_HOST,
