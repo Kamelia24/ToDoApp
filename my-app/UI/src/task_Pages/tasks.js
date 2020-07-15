@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import M from 'materialize-css';
 import { useHistory } from "react-router-dom";
-const Task = () => {
+const Task = (tasks) => {
+    console.log(tasks)
     const history = useHistory();
-    let [isLoading, setIsLoading] = useState(true);
+    /*let [isLoading, setIsLoading] = useState(true);
     let [tasks, setTasks] = useState([]);
     useEffect(() => {
         console.log(localStorage.getItem("jwt"))
-        axios.get('http://localhost:5000/getTasks', {
+        axios.post('http://localhost:5000/getTasks',{num:i} ,{
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -26,7 +27,7 @@ const Task = () => {
                 setIsLoading(false);
                 console.log(isLoading);
             });
-    }, [])
+    }, [])*/
     function removeTask(task) {
         console.log(task)
         axios.post('http://localhost:5000/removeTask', { id: task.taskID }, {
@@ -46,7 +47,7 @@ const Task = () => {
     return (
 
 
-        !isLoading ? (
+        
             tasks.map((task) => <tr key={task.id + 2}>
 
                 <td >{task.title}</td>
@@ -63,14 +64,10 @@ const Task = () => {
 
                 <td ><input type="checkbox" className="checkmark" onClick={() => removeTask(task)}></input></td>
 
-            </tr>)
-        ) : (
-                <tr key={1}>
-
-                    <td >Loading...</td>
-                </tr>
+            </tr>
+            
             )
-
+        
 
     )
 
