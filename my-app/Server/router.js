@@ -6,6 +6,7 @@ const requireLogin = require('./middleware/requireLogin')
 router.post('/checkUser', userController.checkUser);
 router.post('/addUser', userController.addUser);
 router.post('/addTask', requireLogin, controller.addTask);
-router.get('/getTasks', requireLogin, controller.getTasks);
+router.post('/getTasks', requireLogin, controller.getTasks);
+router.get('/getNumberOfTasks', requireLogin, controller.getNumOfTasks);
 router.post('/removeTask', requireLogin, controller.removeTask)
 module.exports = router;
