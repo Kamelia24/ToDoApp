@@ -98,5 +98,19 @@ module.exports = {
             console.log(err)
             result.status(400).json({ err: "Error finishing task" })
         }
+    },
+    getNumOfTasks: async function (req,result){
+        console.log("in get number",req.body,req.user);
+        userID=req.user[0].id
+        try {
+            res = await client.query(`SELECT COUNT("taskID")
+            FROM public.tasks
+            WHERE "userID"=${userID};`);
+            console.log({ body: res.rows[0].count })
+            result.status(200).json({ num:Number(res.rows[0].count) })
+        } catch (err) {
+            console.log(err)
+            result.status(400).json({ err: "Error finishing task" })
+        }
     }
 }
