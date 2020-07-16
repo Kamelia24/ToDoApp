@@ -8,22 +8,7 @@ function ShowTask() {
     let number;
     let [isLoading, setIsLoading] = useState(true);
     let [tasks, setTasks] = useState([]);
-    let [pagination, setPagination] = useState([<button className="active" key={1} onClick={() => movePage(1)}>{1}</button>]);
-    /* const movePage = (i) => {
-         axios.post('http://localhost:5000/getTasks', { num: i }, {
-             headers: {
-                 'Authorization': "Bearer " + localStorage.getItem("jwt")
-             }
-         })
-             .then((res) => {
-                 console.log("res", res.data)
-             })
-             .catch((error) => {
-                 console.log("errorrrr:", error)
-             });
-     }*/
-
-   
+    let [pagination, setPagination] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:5000/getNumberOfTasks', {
             headers: {
@@ -34,27 +19,28 @@ function ShowTask() {
                 console.log("res", res.data.num)
                 let pag = [];
                 number = res.data.num;
-                for (let i = 1; i <= number / 10 + 1; i++) {
+                for (let i = 1; i < number / 10 + 1; i++) {
                     pag.push(<button key={i} onClick={() => movePage(i)}>{i}</button>)
                 }
                 setPagination(pag)
+                movePage(1)
             })
             .catch((error) => {
                 console.log("errorrrr:", error)
             });
     }, [])
 
- function movePage(i) {
-        if (i == undefined) { i = 1 }
-        axios.post('http://localhost:5000/getTasks', { num: i }, {
+    function movePage(i) {
+        if (i === undefined) { i = 1 }
+        axios.post('http://localhost:5000/getTasks', { num: i - 1 }, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
         })
             .then((res) => {
                 console.log("res", res)
-                setIsLoading(false);
                 setTasks(res.data["info"]);
+                setIsLoading(false);
                 console.log(tasks, isLoading)
             })
             .catch((error) => {
@@ -65,7 +51,7 @@ function ShowTask() {
                 console.log(isLoading);
             });
     }
-    
+
     return (
         <div id="taskContainer">
             <div>
