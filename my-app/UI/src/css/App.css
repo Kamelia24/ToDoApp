@@ -162,7 +162,9 @@ input:checked ~ .checkmark:after {
 }
 
 .topnav button {
+  background-color: rgb(0, 197, 138);
   float: left;
+  border: none;
   color: #000000;
   text-align: center;
   padding: 14px 16px;
@@ -176,6 +178,7 @@ input:checked ~ .checkmark:after {
 }
 
 .topnav button.active {
-  background-color: #4CAF50;
+  background-color: rgb(102, 76, 175);
   color: white;
+  border-color: royalblue;
 }
