@@ -14,9 +14,7 @@ module.exports = {
         console.log("income:", req.body);
         let title = req.body.title;
         let description = req.body.description;
-        //console.log(description)
         userID = req.user[0].id;
-        //let location=req.body.location;
         let deadline = req.body.deadline;
         let hasUser;
         try {
@@ -43,14 +41,15 @@ module.exports = {
         }
     },
     getTasks: async function (req, result) {
-        console.log(req.user[0].id)
+        console.log("in get tasks", req.user[0].id, req.body)
         userID = req.user[0].id;
+        numPage = req.body.num;
         let Tasks = {};
         let tasksList = [];
         try {
             res = await client.query(`select * from public.tasks
             where "userID"='${userID}' and "status" is NULL
-            order by deadline asc`);
+            order by deadline asc offset ${numPage * 10} limit 10`);
             console.log({ body: res.rows })
             if (res.rows[0] === undefined) {
                 Tasks.title = "no tasks added";
@@ -65,16 +64,19 @@ module.exports = {
                 for (let i = 0; i < Tasks.length; i++) {
                     Tasks[i].date_created = (Tasks[i].date_created).toISOString().slice(0, 10)
                     Tasks[i].deadline = (Tasks[i].deadline).toISOString().slice(0, 10)
+                    let day = Number(Tasks[i].deadline.slice(8, 10));
+                    let curmonth = Number(Tasks[i].deadline.slice(5, 7));
+                    console.log("p", day, "p", curmonth)
                     let currentDate = new Date;
                     var date = Number(currentDate.getDate());
                     var month = Number(currentDate.getMonth()) + 1;
                     var year = Number(currentDate.getFullYear());
-                    if ((Tasks[i].deadline.slice(8, 10) + 3 >= date) ||
-                        (month % 2 == 0 && Tasks[i].deadline.slice(8, 10) + 3 >= date + 31) ||
-                        (month % 2 != 0 && Tasks[i].deadline.slice(8, 10) + 3 >= date + 30) ||
-                        (month == 2 && year % 4 == 0 && Tasks[i].deadline.slice(8, 10) + 3 >= date + 29) ||
-                        (month % 2 == 0 && year % 4 != 0 && Tasks[i].deadline.slice(8, 10) + 3 >= date + 28) ||
-                        (month == 12 && day + 3 > 31)) {
+                    if (((day - 3 <= date && month == curmonth) ||
+                        (date + 3 > 30 && month % 2 == 0 && day - 3 <= date + 30 && month + 1 == curmonth) ||
+                        (date + 3 > 31 && month % 2 != 0 && day - 3 <= date + 31 && month + 1 == curmonth) ||
+                        (date + 3 > 29 && month == 2 && year % 4 == 0 && day - 3 <= date + 29 && month + 1 == curmonth) ||
+                        (date + 3 > 28 && month % 2 == 0 && year % 4 != 0 && day - 3 <= date + 28 && month + 1 == curmonth) ||
+                        (date + 3 > 31 && month == 12 && day - 3 <= 31))) {
                         Tasks[i].status = "coming";
                     }
                 }
@@ -99,15 +101,15 @@ module.exports = {
             result.status(400).json({ err: "Error finishing task" })
         }
     },
-    getNumOfTasks: async function (req,result){
-        console.log("in get number",req.body,req.user);
-        userID=req.user[0].id
+    getNumOfTasks: async function (req, result) {
+        console.log("in get number", req.body, req.user);
+        userID = req.user[0].id
         try {
             res = await client.query(`SELECT COUNT("taskID")
             FROM public.tasks
-            WHERE "userID"=${userID};`);
+            WHERE "userID"=${userID} and "status" is NULL;`);
             console.log({ body: res.rows[0].count })
-            result.status(200).json({ num:Number(res.rows[0].count) })
+            result.status(200).json({ num: Number(res.rows[0].count) })
         } catch (err) {
             console.log(err)
             result.status(400).json({ err: "Error finishing task" })
