@@ -41,7 +41,7 @@ module.exports = {
         }
     },
     getTasks: async function (req, result) {
-        console.log("in get tasks", req.user[0].id, req.body)
+        console.log("in get tasks", req.user, req.body)
         userID = req.user[0].id;
         numPage = req.body.num;
         let Tasks = {};
@@ -113,6 +113,15 @@ module.exports = {
         } catch (err) {
             console.log(err)
             result.status(400).json({ err: "Error finishing task" })
+        }
+    },
+    getUsers: async function (req, result) {
+        try {
+            res = await client.query(`SELECT username,id from public.users`)
+            console.log(res.rows);
+            result.status(200).json({ data: res.rows })
+        } catch (err) {
+            result.status(400).json({ error: error })
         }
     }
 }
