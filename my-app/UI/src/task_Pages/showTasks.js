@@ -9,6 +9,7 @@ function ShowTask() {
     let [isLoading, setIsLoading] = useState(true);
     let [tasks, setTasks] = useState([]);
     let [pagination, setPagination] = useState([]);
+    let [isAdmin, setIsAdmin] = useState(false)
     useEffect(() => {
         axios.get('http://localhost:5000/getNumberOfTasks', {
             headers: {
@@ -22,11 +23,15 @@ function ShowTask() {
                 for (let i = 1; i < number / 10 + 1; i++) {
                     pag.push(<button key={i} onClick={() => movePage(i)}>{i}</button>)
                 }
+                setIsAdmin(localStorage.getItem("role"))
+                console.log(localStorage.getItem("role"))
                 setPagination(pag)
                 movePage(1)
             })
             .catch((error) => {
                 console.log("errorrrr:", error)
+                M.toast({ html: "I think you haven't logged in" })
+                history.push("/");
             });
     }, [])
 
@@ -62,6 +67,16 @@ function ShowTask() {
                         history.push("/")
                     }}
                 >Log out</button>
+
+                {isAdmin == "true" ? (
+                    <button className="button1"
+                        onClick={() => {
+                            history.push("/AllTasks")
+                        }}
+                    >Other users</button>
+                ) : (
+                        <div></div>
+                    )}
             </div>
             <h1 align="center">Your active tasks</h1>
             <table id="todo">
