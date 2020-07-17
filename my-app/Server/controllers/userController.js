@@ -20,11 +20,13 @@ module.exports = {
         let userPassword;
         let inputPassword = req.body.password;
         let isCorrect;
+        let isAdmin;
         try {
-            res = await client.query(`SELECT password,id FROM public.users WHERE username='${req.body.username}'`)
+            res = await client.query(`SELECT password,id,role FROM public.users WHERE username='${req.body.username}'`)
             userPassword = res.rows[0]["password"];
             userID = res.rows[0]["id"];
-            console.log("result:", userPassword, inputPassword, userID);
+            isAdmin = (res.rows[0]["role"] == "admin");
+            console.log("result:", userPassword, inputPassword, userID, isAdmin);
         } catch (err) {
             console.log(err)
             return result.status(401).json('No such user')
@@ -38,7 +40,7 @@ module.exports = {
         }
         if (userPassword != undefined && isCorrect) {
             const token = jwt.sign({ id: userID }, JWT_SECRET);
-            result.json({ token: token, userID: userID })
+            result.json({ token: token, userID: userID, isAdmin: isAdmin })
             console.log(token)
         } else {
             outp = "Incorect username or password,please try again!";
