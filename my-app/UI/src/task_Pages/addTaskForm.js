@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import M from 'materialize-css';
 const AddTask = () => {
     const history = useHistory();
     const [location, setLocation] = useState("");
@@ -25,6 +26,8 @@ const AddTask = () => {
                 history.push('/ToDoList')
             }).catch((error) => {
                 console.log(error)
+                M.toast({ html: "I think you haven't logged in" })
+                history.push("/");
             });
     }
     return (
