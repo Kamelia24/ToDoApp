@@ -9,9 +9,9 @@ function ShowTask() {
     let [isLoading, setIsLoading] = useState(true);
     let [tasks, setTasks] = useState([]);
     let [pagination, setPagination] = useState([]);
-    let [isAdmin, setIsAdmin] = useState(false)
+    let [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
-        axios.get('http://localhost:5000/getNumberOfTasks', {
+        axios.post('http://localhost:5000/getNumberOfTasks', { userID: "no" }, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -34,10 +34,9 @@ function ShowTask() {
                 history.push("/");
             });
     }, [])
-
     function movePage(i) {
         if (i === undefined) { i = 1 }
-        axios.post('http://localhost:5000/getTasks', { num: i - 1 }, {
+        axios.post('http://localhost:5000/getTasks', { num: i - 1, userID: "no" }, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
