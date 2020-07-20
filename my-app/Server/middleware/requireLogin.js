@@ -13,13 +13,13 @@ module.exports = (req, res, next) => {
     const { authorization } = req.headers;
     console.log("auth")
     if (!authorization) {
-        console.log("error log in")
+        console.log("error log in no auth")
         return res.status(401).json({ error: "you must be logged in" })
     } else {
         const token = authorization.replace("Bearer ", "")
         jwt.verify(token, JWT_SECRET, (err, payload) => {
             if (err) {
-                console.log("error log in")
+                console.log("error log in wrong token")
                 return res.status(401).json({ error: "you must be logged in" })
             } else {
                 const { id } = payload
