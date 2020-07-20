@@ -42,7 +42,12 @@ module.exports = {
     },
     getTasks: async function (req, result) {
         console.log("in get tasks", req.user, req.body)
+        if(req.body.userID!="no"){
+            userID=req.body.userID;
+        }else{
         userID = req.user[0].id;
+        }
+        console.log("userId:",userID)
         numPage = req.body.num;
         let Tasks = {};
         let tasksList = [];
@@ -97,13 +102,17 @@ module.exports = {
             console.log({ body: res.rows })
             result.status(200).json({ success: "Successfully finished task" })
         } catch (err) {
-            console.log(err)
+            console.log("in remove task",err)
             result.status(400).json({ err: "Error finishing task" })
         }
     },
     getNumOfTasks: async function (req, result) {
         console.log("in get number", req.body, req.user);
-        userID = req.user[0].id
+        if(req.body.userID!="no"){
+            userID=req.body.userID;
+        }else{
+        userID = req.user[0].id;
+        }
         try {
             res = await client.query(`SELECT COUNT("taskID")
             FROM public.tasks
@@ -111,13 +120,13 @@ module.exports = {
             console.log({ body: res.rows[0].count })
             result.status(200).json({ num: Number(res.rows[0].count) })
         } catch (err) {
-            console.log(err)
+            console.log("in get pages",err)
             result.status(400).json({ err: "Error finishing task" })
         }
     },
     getUsers: async function (req, result) {
         try {
-            res = await client.query(`SELECT username,id from public.users`)
+            res = await client.query(`SELECT username,id from public.users order by id asc`)
             console.log(res.rows);
             result.status(200).json({ data: res.rows })
         } catch (err) {
