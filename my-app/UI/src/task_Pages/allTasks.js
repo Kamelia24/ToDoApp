@@ -10,6 +10,7 @@ function ShowUserTasks() {
     let [tasks, setTasks] = useState([]);
     let [pagination, setPagination] = useState([]);
     let [users, setUsers] = useState([])
+    let [userID, setUserID] = useState(1)
     useEffect(() => {
         axios.get('http://localhost:5000/getUsers', {
             headers: {
@@ -20,10 +21,12 @@ function ShowUserTasks() {
                 console.log("res", res.data.data)
                 let user = [];
                 //user = res.data.num;
-                for (let i = 1; i < res.data.data.length; i++) {
-                    user.push(<button key={res.data.data[i].id} onClick={() => changeUser(res.data.data[i].id)}>{res.data.data[i]["username"]}</button>)
+                for (let i = 1; i <= res.data.data.length; i++) {
+                    user.push(<button key={res.data.data[i - 1].id} onClick={() => setUserID(res.data.data[i - 1].id), () => getNumOfPages(res.data.data[i - 1].id)}>{res.data.data[i - 1]["username"]}</button>)
                 }
                 setUsers(user)
+                getNumOfPages(userID)
+                //getUserTasks(userID)
 
             })
             .catch((error) => {
@@ -31,13 +34,34 @@ function ShowUserTasks() {
                 M.toast({ html: "I think you haven't logged in" })
                 history.push("/");
             });
-    }, [])
-    function changeUser(userID) {
 
+    }, [])
+    function getNumOfPages(userID) {
+        axios.post('http://localhost:5000/getNumberOfTasks', { userID }, {
+            headers: {
+                'Authorization': "Bearer " + localStorage.getItem("jwt")
+            }
+        })
+            .then((res) => {
+                console.log("res", res.data.num)
+                let pag = [];
+                number = res.data.num;
+                for (let i = 1; i < number / 10 + 1; i++) {
+                    pag.push(<button key={i} onClick={() => getUserTasks(i)}>{i}</button>)
+                }
+
+                setPagination(pag)
+                getUserTasks(userID, 1)
+            })
+            .catch((error) => {
+                console.log("errorrrr:", error)
+                M.toast({ html: "I think you haven't logged in" })
+                history.push("/");
+            });
     }
-    function movePage(i) {
+    function getUserTasks(userID, i) {
         if (i === undefined) { i = 1 }
-        axios.post('http://localhost:5000/getUserTasks', { num: i - 1 }, {
+        axios.post('http://localhost:5000/getTasks', { num: i - 1, userID }, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -56,7 +80,6 @@ function ShowUserTasks() {
                 console.log(isLoading);
             });
     }
-
     return (
         <div id="taskContainer">
             <div>
