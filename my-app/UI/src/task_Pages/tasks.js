@@ -12,11 +12,11 @@ const Task = (tasks) => {
         })
             .then((res) => {
                 console.log(res);
-                M.toast({ html: "Successfully removed task" });
+                M.toast({ html: "Successfully removed task",classes:'success' });
                 window.location.reload(false);
             }).catch((err) => {
                 console.log(err);
-                M.toast({ html: "Error removing task" });
+                M.toast({ html: "Error removing task",classes:'fail' });
             })
     }
     return (
