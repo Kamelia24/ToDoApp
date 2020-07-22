@@ -23,10 +23,11 @@ const AddTask = () => {
         })
             .then((res) => {
                 console.log("in Axios", taskData, res)
+                M.toast({ html: 'Successfully added task' ,classes:'success'})
                 history.push('/ToDoList')
             }).catch((error) => {
                 console.log(error)
-                M.toast({ html: "I think you haven't logged in" })
+                M.toast({ html: "I think you haven't logged in" ,classes:'fail'})
                 history.push("/");
             });
     }
