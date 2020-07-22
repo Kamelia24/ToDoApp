@@ -30,7 +30,7 @@ function ShowTask() {
             })
             .catch((error) => {
                 console.log("errorrrr:", error)
-                M.toast({ html: "I think you haven't logged in" })
+                M.toast({ html: "I think you haven't logged in" ,classes:'fail'})
                 history.push("/");
             });
     }, [])
@@ -58,25 +58,43 @@ function ShowTask() {
 
     return (
         <div id="taskContainer">
-            <div>
-                <button className="button1" ><Link to="/AddTasks">New task</Link></button>
-                <button className="button1"
-                    onClick={() => {
-                        localStorage.clear()
-                        history.push("/")
-                    }}
-                >Log out</button>
-
-                {isAdmin == "true" ? (
-                    <button className="button1"
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+  <a className="navbar-brand"><Link to="/AddTasks" style={{color: 'green',textDecoration:'none'}}>ToDoApp</Link></a>
+  
+{isAdmin === "true" ? (
+                    <a className="nav-item"
                         onClick={() => {
-                            history.push("/AllTasks")
+                            history.push("/AllUsers")
                         }}
-                    >Other users</button>
+                    >Other users</a>
                 ) : (
                         <div></div>
                     )}
-            </div>
+  
+    <ul className="navbar-nav mr-auto">
+      
+      
+      <li className="nav-item dropdown" style={{Align:'right',marginLeft:'10px'}}>
+        <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Profile
+        </a>
+        <div className="dropdown-menu"  aria-labelledby="navbarDropdown">
+          
+      
+                    <a className="dropdown-item" ><Link to="/AddTasks" style={{color: 'black',textDecoration:'none'}}>New task</Link></a>
+          <a className="dropdown-item" onClick={() => {
+                        localStorage.clear()
+                        history.push("/")
+                    }}>Log out</a>
+        </div>
+  
+      </li>
+                
+            
+    </ul>
+</nav>
+        
+           
             <h1 align="center">Your active tasks</h1>
             <table id="todo">
                 <thead>
