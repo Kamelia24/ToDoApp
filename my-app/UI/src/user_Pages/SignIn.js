@@ -18,10 +18,11 @@ const SignInForm = () => {
                 localStorage.setItem("jwt", res.data.token);
                 localStorage.setItem("userID", res.data.userID);
                 localStorage.setItem("role", res.data.isAdmin);
+                M.toast({ html: 'Successfull login', classes: 'success' })
                 history.push('/ToDoList')
             }).catch((error) => {
                 console.log(error)
-                M.toast({ html: 'Incorrect data', classes: "#c62828" })
+                M.toast({ html: 'Incorrect data', classes: "fail" })
             });
     }
     return (
