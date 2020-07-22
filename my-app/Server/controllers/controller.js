@@ -121,16 +121,28 @@ module.exports = {
             result.status(200).json({ num: Number(res.rows[0].count) })
         } catch (err) {
             console.log("in get pages", err)
-            result.status(400).json({ err: "Error finishing task" })
+            result.status(400).json({ err})
         }
     },
     getUsers: async function (req, result) {
         try {
-            res = await client.query(`SELECT username,id from public.users order by id asc`)
+            res = await client.query(`SELECT username,id,name,age from public.users order by id asc`)
             console.log(res.rows);
             result.status(200).json({ data: res.rows })
         } catch (err) {
             result.status(400).json({ error: error })
+        }
+    },
+    getNumOfUsers: async function (req, result) {
+        console.log("in get users number", req.body, req.user);
+        try {
+            res = await client.query(`SELECT COUNT(id)
+            FROM public.users`);
+            console.log({ body: res.rows[0].count })
+            result.status(200).json({ num: Number(res.rows[0].count) })
+        } catch (err) {
+            console.log("in get users number", err)
+            result.status(400).json({ err })
         }
     }
 }
