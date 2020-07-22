@@ -19,10 +19,11 @@ const SignUpForm = () => {
         axios.post('http://localhost:5000/addUser', userObject)
             .then((res) => {
                 console.log("in Axios", userObject, res)
+                M.toast({ html: 'Successfull registration' ,classes:'success'})
                 history.push('/LogIn')
             }).catch((error) => {
                 console.log(error)
-                M.toast({ html: 'User already exists' })
+                M.toast({ html: 'User already exists' ,classes:'fail'})
             });
     }
     return (
