@@ -121,7 +121,7 @@ module.exports = {
             result.status(200).json({ num: Number(res.rows[0].count) })
         } catch (err) {
             console.log("in get pages", err)
-            result.status(400).json({ err})
+            result.status(400).json({ err })
         }
     },
     getUsers: async function (req, result) {
@@ -143,6 +143,58 @@ module.exports = {
         } catch (err) {
             console.log("in get users number", err)
             result.status(400).json({ err })
+        }
+    },
+    getNumOfFinTasks: async function (req, result) {
+        console.log("in get number", req.body, req.user);
+        let userID = req.user[0].id;
+        let dateFrom = req.body.dateFrom;
+        let dateTo = req.body.dateTo;
+        try {
+            res = await client.query(`SELECT COUNT("taskID")
+            FROM public.tasks
+            WHERE "userID"=${userID} and "status" is not NULL and "date_created" between '${dateFrom}' and '${dateTo}'`);
+            console.log({ body: res.rows[0].count })
+            result.status(200).json({ num: Number(res.rows[0].count) })
+        } catch (err) {
+            console.log("in get pages", err)
+            result.status(400).json({ err })
+        }
+    },
+    getFinishedTasks: async function (req, result) {
+        console.log("in get tasks", req.user, req.body)
+
+        userID = req.user[0].id;
+
+        let dateFrom = req.body.dateFrom;
+        let dateTo = req.body.dateTo;
+        console.log("userId:", userID)
+        numPage = req.body.num;
+        let Tasks = {};
+        let tasksList = [];
+        try {
+            res = await client.query(`select * from public.tasks
+            where "userID"='${userID}' and "status" is not NULL and "date_created">= '${dateFrom}' and "date_created"<='${dateTo}'
+            order by deadline asc offset ${numPage * 10} limit 10`);
+            console.log({ body: res.rows })
+            if (res.rows[0] === undefined) {
+                Tasks.title = "no tasks in the period";
+                Tasks.description = "---";
+                Tasks.date_created = "---";
+                Tasks.deadline = "---";
+                Tasks.status = "finished";
+                Tasks.id = 1;
+                tasksList.push(Tasks)
+            } else {
+                //Tasks = res.rows;
+                tasksList = res.rows;
+            }
+
+            console.log(tasksList);
+            result.json({ info: tasksList });
+        } catch (err) {
+            console.log('get tasks:', err);
+            result.status(204).json({ err: err });
         }
     }
 }
