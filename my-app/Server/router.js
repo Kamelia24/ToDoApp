@@ -11,5 +11,7 @@ router.post('/getTasks', requireLogin, controller.getTasks);
 router.post('/getNumberOfTasks', requireLogin, controller.getNumOfTasks);
 router.post('/removeTask', requireLogin, controller.removeTask);
 router.post('/getUsers', requireLogin, requireAdmin, controller.getUsers);
-router.get('/getNumberOfUsers',requireLogin,requireAdmin,controller.getNumOfUsers)
+router.get('/getNumberOfUsers',requireLogin,requireAdmin,controller.getNumOfUsers);
+router.post('/getNumOfFinTasks',requireLogin,controller.getNumOfFinTasks);
+router.post('/getFinishedTasks',requireLogin,controller.getFinishedTasks);
 module.exports = router;
