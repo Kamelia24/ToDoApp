@@ -7,6 +7,7 @@ import SignIn from "./user_Pages/SignIn";
 import ToDoList from "./task_Pages/showTasks";
 import AddTasks from "./task_Pages/addTaskForm";
 import ShowUsers from "./task_Pages/allUsers";
+import Finished from "./task_Pages/finishedTasks";
 function Home() {
     return (
         <Switch>
@@ -16,6 +17,7 @@ function Home() {
             <Route path="/ToDoList" component={ToDoList} />
             <Route path="/AddTasks" component={AddTasks} />
             <Route path="/AllUsers" component={ShowUsers} />
+            <Route path="/FinishedTasks" component={Finished} />
         </Switch>
     );
 }
