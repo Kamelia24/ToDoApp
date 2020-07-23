@@ -77,6 +77,7 @@ function changeView(id){
                         </a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a className="dropdown-item" ><Link to="/ToDoList" style={{ color: 'black', textDecoration: 'none' }}>My tasks</Link></a>
+                            <a className="dropdown-item" ><Link to="/FinishedTasks" style={{ color: 'black', textDecoration: 'none' }}>Finished tasks</Link></a>
                             <a className="dropdown-item" onClick={() => {
                                 localStorage.clear()
                                 history.push("/")
