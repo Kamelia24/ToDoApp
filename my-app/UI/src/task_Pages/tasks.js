@@ -12,11 +12,11 @@ const Task = (tasks) => {
         })
             .then((res) => {
                 console.log(res);
-                M.toast({ html: "Successfully removed task",classes:'success' });
+                M.toast({ html: "Successfully removed task", classes: 'success' });
                 window.location.reload(false);
             }).catch((err) => {
                 console.log(err);
-                M.toast({ html: "Error removing task",classes:'fail' });
+                M.toast({ html: "Error removing task", classes: 'fail' });
             })
     }
     return (
@@ -33,8 +33,12 @@ const Task = (tasks) => {
                     <td  >{task.deadline}</td>
                 )}
 
+            {task.status === "finished" ? (
+                <div></div>
+            ) : (
+                    <td  ><input type="checkbox" className="checkmark" onClick={() => removeTask(task)}></input></td>
+                )}
 
-            <td ><input type="checkbox" className="checkmark" onClick={() => removeTask(task)}></input></td>
 
         </tr>
         )
