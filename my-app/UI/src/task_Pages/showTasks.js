@@ -49,7 +49,7 @@ function ShowTask() {
             })
             .catch((error) => {
                 console.log("errorrrr:", error)
-                M.toast({ html: "I think you haven't logged in" })
+                M.toast({ html: "I think you haven't logged in",classes:"fail" })
                 history.push("/");
                 setIsLoading(false);
                 console.log(isLoading);
@@ -82,6 +82,7 @@ function ShowTask() {
           
       
                     <a className="dropdown-item" ><Link to="/AddTasks" style={{color: 'black',textDecoration:'none'}}>New task</Link></a>
+                    <div className="dropdown-item" ><Link to="/FinishedTasks" style={{color: 'black',textDecoration:'none'}}>Finished tasks</Link></div>
           <a className="dropdown-item" onClick={() => {
                         localStorage.clear()
                         history.push("/")
