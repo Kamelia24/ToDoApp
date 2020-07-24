@@ -63,43 +63,6 @@ function ShowFinTask() {
 
     return (
         <div id="taskContainer">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="navbar-brand"><Link to="/AddTasks" style={{ color: 'green', textDecoration: 'none' }}>ToDoApp</Link></div>
-
-                {isAdmin === "true" ? (
-                    <a className="nav-item"
-                        onClick={() => {
-                            history.push("/AllUsers")
-                        }}
-                    >Other users</a>
-                ) : (
-                        <div></div>
-                    )}
-
-                <ul className="navbar-nav mr-auto">
-
-
-                    <li className="nav-item dropdown" style={{ Align: 'right', marginLeft: '10px' }}>
-                        <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Profile
-        </a>
-                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-
-
-                            <div className="dropdown-item" ><Link to="/AddTasks" style={{ color: 'black', textDecoration: 'none' }}>New task</Link></div>
-                            <div className="dropdown-item" ><Link to="/FinishedTasks" style={{ color: 'black', textDecoration: 'none' }}>Finished tasks</Link></div>
-                            <a className="dropdown-item" onClick={() => {
-                                localStorage.clear()
-                                history.push("/")
-                            }}>Log out</a>
-                        </div>
-
-                    </li>
-
-
-                </ul>
-            </nav>
-
             {!isLoading ? (
                 <div>
                     <h1 align="center">Your finished tasks</h1>
