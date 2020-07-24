@@ -6,6 +6,9 @@ const SignInForm = () => {
     const history = useHistory();
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
+    if (localStorage.getItem("jwt")) {
+        history.push('/ToDoList')
+    }
     const signInRequest = (e) => {
         e.preventDefault();
         const userObject = {
