@@ -125,8 +125,11 @@ module.exports = {
         }
     },
     getUsers: async function (req, result) {
+        console.log("in get users:", req.body)
+        numPage = req.body.num - 1;
+        console.log(numPage);
         try {
-            res = await client.query(`SELECT username,id,name,age from public.users order by id asc`)
+            res = await client.query(`SELECT username,id,name,age from public.users order by id asc offset ${numPage * 10} limit 10`)
             console.log(res.rows);
             result.status(200).json({ data: res.rows })
         } catch (err) {
