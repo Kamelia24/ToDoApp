@@ -8,6 +8,9 @@ const SignUpForm = () => {
     const [age, setAge] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
+    if (localStorage.getItem("jwt")) {
+        history.push('/ToDoList')
+    }
     const signUpRequest = (e) => {
         e.preventDefault();
         const userObject = {
@@ -19,11 +22,11 @@ const SignUpForm = () => {
         axios.post('http://localhost:5000/addUser', userObject)
             .then((res) => {
                 console.log("in Axios", userObject, res)
-                M.toast({ html: 'Successfull registration' ,classes:'success'})
-                history.push('/LogIn')
+                M.toast({ html: 'Successfull registration', classes: 'success' })
+                history.push('/SignIn')
             }).catch((error) => {
                 console.log(error)
-                M.toast({ html: 'User already exists' ,classes:'fail'})
+                M.toast({ html: 'User already exists', classes: 'fail' })
             });
     }
     return (
