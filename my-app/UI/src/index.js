@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/index.css';
 import Main from './App';
+import Navbar from './navbar'
 //import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <BrowserRouter>
+    <Navbar />
     <Main />
   </BrowserRouter>,
   document.getElementById('root')
