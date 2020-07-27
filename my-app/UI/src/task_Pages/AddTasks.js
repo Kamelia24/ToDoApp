@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import M from 'materialize-css';
-const AddTask = () => {
+const AddTasks = () => {
     const history = useHistory();
     const [location, setLocation] = useState("");
     const [deadline, setDeadline] = useState("");
@@ -72,4 +72,4 @@ const AddTask = () => {
         </div>
     );
 }
-export default AddTask;
+export default AddTasks;
