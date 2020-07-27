@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import M from 'materialize-css';
 import axios from 'axios';
-import AllTasks from './allTasks';
+import AllTasks from './ShowUserTasks';
 function ShowUsers() {
     const history = useHistory();
     let number;
