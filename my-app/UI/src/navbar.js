@@ -14,7 +14,7 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="navbar-brand">
                 {isLoggedin?(
-                <Link to="/AddTasks" style={{ color: 'green', textDecoration: 'none' }}>ToDoApp</Link>
+                <Link to="/ToDoList" style={{ color: 'green', textDecoration: 'none' }}>ToDoApp</Link>
                 ):(
                     <Link to="/" style={{ color: 'green', textDecoration: 'none' }}>ToDoApp</Link>
                 )}
