@@ -1,11 +1,11 @@
-import React from 'react';
+import React,{useState} from 'react';
 import axios from 'axios';
 import M from 'materialize-css';
-const Task = (tasks) => {
+const Tasks = (tasks) => {
     console.log(tasks.tasks)
     function removeTask(task) {
         console.log(task)
-        axios.post('http://localhost:5000/removeTask', { id: task.taskID }, {
+        axios.put('http://localhost:5000/removeTask', { id: task.taskID }, {
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -20,6 +20,7 @@ const Task = (tasks) => {
             })
     }
     return (
+        
         tasks["tasks"].map((task) => <tr key={task.id + 2}>
 
             <td >{task.title}</td>
@@ -45,4 +46,4 @@ const Task = (tasks) => {
     )
 
 }
-export default Task;
+export default Tasks;
