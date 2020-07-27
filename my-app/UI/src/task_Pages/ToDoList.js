@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Task from "./tasks";
+import Tasks from "./Tasks";
 import { Link, useHistory } from "react-router-dom";
 import M from 'materialize-css';
 import axios from 'axios';
-function ShowTask() {
+function ToDoList() {
     const history = useHistory();
     let number;
     let [isLoading, setIsLoading] = useState(true);
@@ -30,7 +30,7 @@ function ShowTask() {
             })
             .catch((error) => {
                 console.log("errorrrr:", error)
-                M.toast({ html: "I think you haven't logged in" ,classes:'fail'})
+                M.toast({ html: "I think you haven't logged in", classes: 'fail' })
                 history.push("/");
             });
     }, [])
@@ -43,13 +43,18 @@ function ShowTask() {
         })
             .then((res) => {
                 console.log("res", res)
-                setTasks(res.data["info"]);
+                if (res.data["info"].length == 0) {
+                    setTasks([{id:1,title:"no tasks added",description: "---",date_created: "---",deadline: "---",status:""}])
+                } else {
+                    setTasks(res.data["info"]);
+                }
+
                 setIsLoading(false);
                 console.log(tasks, isLoading)
             })
             .catch((error) => {
                 console.log("errorrrr:", error)
-                M.toast({ html: "I think you haven't logged in",classes:"fail" })
+                M.toast({ html: "I think you haven't logged in", classes: "fail" })
                 history.push("/");
                 setIsLoading(false);
                 console.log(isLoading);
@@ -58,9 +63,9 @@ function ShowTask() {
 
     return (
         <div id="taskContainer">
-        
-        
-           
+
+
+
             <h1 align="center">Your active tasks</h1>
             <table id="todo">
                 <thead>
@@ -74,7 +79,7 @@ function ShowTask() {
                 </thead>
                 <tbody>
                     {!isLoading ? (
-                        <Task tasks={tasks} />
+                        <Tasks tasks={tasks} />
                     ) : (
                             <tr key={1}>
 
@@ -89,4 +94,4 @@ function ShowTask() {
         </div>
     )
 }
-export default ShowTask;
+export default ToDoList;
