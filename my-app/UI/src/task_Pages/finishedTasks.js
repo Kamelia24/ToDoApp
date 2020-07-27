@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Task from "./tasks";
+import Task from "./Tasks";
 import { Link, useHistory } from "react-router-dom";
 import M from 'materialize-css';
 import axios from 'axios';
-function ShowFinTask() {
+function FinishedTasks() {
     const history = useHistory();
     let number;
     let [isLoading, setIsLoading] = useState(true);
@@ -46,7 +46,11 @@ function ShowFinTask() {
         })
             .then((res) => {
                 console.log("res", res)
-                setTasks(res.data["info"]);
+                if (res.data["info"].length == 0) {
+                    setTasks([{id:1,title:"no tasks added",description: "---",date_created: "---",deadline:"---",status: "finished"}])
+                } else {
+                    setTasks(res.data["info"]);
+                }
                 setIsLoading(false);
                 console.log(tasks, isLoading)
             })
@@ -112,4 +116,4 @@ function ShowFinTask() {
         </div>
     )
 }
-export default ShowFinTask;
+export default FinishedTasks;
