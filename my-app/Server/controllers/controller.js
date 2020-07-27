@@ -51,39 +51,23 @@ module.exports = {
         numPage = req.body.num;
         let Tasks = {};
         let tasksList = [];
+        try{
+
+        } catch(err){
+
+        }
         try {
-            res = await client.query(`select * from public.tasks
+            res = await client.query(`select "taskID","userID",title,description,date_created,deadline, 
+            case when deadline<=current_date+3 then 'coming' end status
+            from public.tasks
             where "userID"='${userID}' and "status" is NULL
             order by deadline asc offset ${numPage * 10} limit 10`);
             console.log({ body: res.rows })
-            if (res.rows[0] === undefined) {
-                Tasks.title = "no tasks added";
-                Tasks.description = "---";
-                Tasks.date_created = "---";
-                Tasks.deadline = "---";
-                Tasks.status = ""
-                Tasks.id = 1;
-                tasksList.push(Tasks)
-            } else {
+            if (res.rows[0] != undefined) {
                 Tasks = res.rows;
                 for (let i = 0; i < Tasks.length; i++) {
                     Tasks[i].date_created = (Tasks[i].date_created).toISOString().slice(0, 10)
                     Tasks[i].deadline = (Tasks[i].deadline).toISOString().slice(0, 10)
-                    let day = Number(Tasks[i].deadline.slice(8, 10));
-                    let curmonth = Number(Tasks[i].deadline.slice(5, 7));
-                    console.log("p", day, "p", curmonth)
-                    let currentDate = new Date;
-                    var date = Number(currentDate.getDate());
-                    var month = Number(currentDate.getMonth()) + 1;
-                    var year = Number(currentDate.getFullYear());
-                    if (((day - 3 <= date && month == curmonth) ||
-                        (date + 3 > 30 && month % 2 == 0 && day - 3 <= date + 30 && month + 1 == curmonth) ||
-                        (date + 3 > 31 && month % 2 != 0 && day - 3 <= date + 31 && month + 1 == curmonth) ||
-                        (date + 3 > 29 && month == 2 && year % 4 == 0 && day - 3 <= date + 29 && month + 1 == curmonth) ||
-                        (date + 3 > 28 && month % 2 == 0 && year % 4 != 0 && day - 3 <= date + 28 && month + 1 == curmonth) ||
-                        (date + 3 > 31 && month == 12 && day - 3 <= 31))) {
-                        Tasks[i].status = "coming";
-                    }
                 }
                 tasksList = Tasks;
             }
@@ -180,16 +164,8 @@ module.exports = {
             where "userID"='${userID}' and "status" is not NULL and "date_created">= '${dateFrom}' and "date_created"<='${dateTo}'
             order by deadline asc offset ${numPage * 10} limit 10`);
             console.log({ body: res.rows })
-            if (res.rows[0] === undefined) {
-                Tasks.title = "no tasks in the period";
-                Tasks.description = "---";
-                Tasks.date_created = "---";
-                Tasks.deadline = "---";
-                Tasks.status = "finished";
-                Tasks.id = 1;
-                tasksList.push(Tasks)
-            } else {
-                //Tasks = res.rows;
+            if (res.rows[0] !== undefined) {
+              
                 tasksList = res.rows;
             }
 
