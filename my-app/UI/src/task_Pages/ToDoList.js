@@ -11,7 +11,10 @@ function ToDoList() {
     let [pagination, setPagination] = useState([]);
     let [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
-        axios.post('http://localhost:5000/getNumberOfTasks', { userID: "no" }, {
+        axios.get('http://localhost:5000/getNumberOfTasks', {
+            params: {
+                userID: "no"
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -36,7 +39,11 @@ function ToDoList() {
     }, [])
     function movePage(i) {
         if (i === undefined) { i = 1 }
-        axios.post('http://localhost:5000/getTasks', { num: i - 1, userID: "no" }, {
+        axios.get('http://localhost:5000/getTasks', {
+            params: {
+                num: i - 1,
+                userID: "no"
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -44,7 +51,7 @@ function ToDoList() {
             .then((res) => {
                 console.log("res", res)
                 if (res.data["info"].length == 0) {
-                    setTasks([{id:1,title:"no tasks added",description: "---",date_created: "---",deadline: "---",status:""}])
+                    setTasks([{ id: 1, title: "no tasks added", description: "---", date_created: "---", deadline: "---", status: "" }])
                 } else {
                     setTasks(res.data["info"]);
                 }
