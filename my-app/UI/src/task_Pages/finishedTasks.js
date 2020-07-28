@@ -15,7 +15,11 @@ function FinishedTasks() {
     const DatesAdd = (e) => {
         e.preventDefault();
         setIsAdmin(localStorage.getItem("role"));
-        axios.post('http://localhost:5000/getNumOfFinTasks', { dateFrom, dateTo }, {
+        axios.get('http://localhost:5000/getNumOfFinTasks', {
+            params: {
+                dateFrom,
+                dateTo
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -39,7 +43,12 @@ function FinishedTasks() {
     }
     function movePage(i) {
         if (i === undefined) { i = 1 }
-        axios.post('http://localhost:5000/getFinishedTasks', { num: i - 1, dateFrom, dateTo }, {
+        axios.get('http://localhost:5000/getFinishedTasks', {
+            params: {
+                num: i - 1,
+                dateFrom,
+                dateTo
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -47,7 +56,7 @@ function FinishedTasks() {
             .then((res) => {
                 console.log("res", res)
                 if (res.data["info"].length == 0) {
-                    setTasks([{id:1,title:"no tasks added",description: "---",date_created: "---",deadline:"---",status: "finished"}])
+                    setTasks([{ id: 1, title: "no tasks added", description: "---", date_created: "---", deadline: "---", status: "finished" }])
                 } else {
                     setTasks(res.data["info"]);
                 }
