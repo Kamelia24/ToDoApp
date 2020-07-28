@@ -12,7 +12,10 @@ function ShowUserTasks(id) {
     let [pagination, setPagination] = useState([]);
     useEffect(() => {
         console.log(userID);
-        axios.post('http://localhost:5000/getNumberOfTasks', { userID }, {
+        axios.get('http://localhost:5000/getNumberOfTasks', {
+            params: {
+                userID
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -36,7 +39,10 @@ function ShowUserTasks(id) {
     }, [])
     function getUserTasks(userID, i) {
         if (i === undefined) { i = 1 }
-        axios.post('http://localhost:5000/getTasks', { num: i - 1, userID }, {
+        axios.get('http://localhost:5000/getTasks', {
+            params: {
+                num: i - 1, userID
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
@@ -44,7 +50,7 @@ function ShowUserTasks(id) {
             .then((res) => {
                 console.log("res", res)
                 if (res.data["info"].length == 0) {
-                    setTasks([{id:1,title:"no tasks added",description: "---",date_created: "---",deadline:"---",status: "finished"}])
+                    setTasks([{ id: 1, title: "no tasks added", description: "---", date_created: "---", deadline: "---", status: "finished" }])
                 } else {
                     setTasks(res.data["info"]);
                 }
