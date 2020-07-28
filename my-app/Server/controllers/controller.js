@@ -41,14 +41,14 @@ module.exports = {
         }
     },
     getTasks: async function (req, result) {
-        console.log("in get tasks", req.user, req.body)
-        if (req.body.userID != "no") {
-            userID = req.body.userID;
+        console.log("in get tasks", req.user, req.query)
+        if (req.query.userID != "no") {
+            userID = req.query.userID;
         } else {
             userID = req.user[0].id;
         }
         console.log("userId:", userID)
-        numPage = req.body.num;
+        numPage = req.query.num;
         let Tasks = {};
         let tasksList = [];
         try{
@@ -91,9 +91,9 @@ module.exports = {
         }
     },
     getNumOfTasks: async function (req, result) {
-        console.log("in get number", req.body, req.user);
-        if (req.body.userID != "no") {
-            userID = req.body.userID;
+        console.log("in get number", req.query, req.user);
+        if (req.query.userID != "no") {
+            userID = req.query.userID;
         } else {
             userID = req.user[0].id;
         }
@@ -109,8 +109,8 @@ module.exports = {
         }
     },
     getUsers: async function (req, result) {
-        console.log("in get users:", req.body)
-        numPage = req.body.num - 1;
+        console.log("in get users:", req.params,req.query)
+        numPage = req.query.num - 1;
         console.log(numPage);
         try {
             res = await client.query(`SELECT username,id,name,age from public.users order by id asc offset ${numPage * 10} limit 10`)
@@ -133,10 +133,10 @@ module.exports = {
         }
     },
     getNumOfFinTasks: async function (req, result) {
-        console.log("in get number", req.body, req.user);
+        console.log("in get number", req.params,req.query, req.user);
         let userID = req.user[0].id;
-        let dateFrom = req.body.dateFrom;
-        let dateTo = req.body.dateTo;
+        let dateFrom = req.query.dateFrom;
+        let dateTo = req.query.dateTo;
         try {
             res = await client.query(`SELECT COUNT("taskID")
             FROM public.tasks
@@ -149,14 +149,14 @@ module.exports = {
         }
     },
     getFinishedTasks: async function (req, result) {
-        console.log("in get tasks", req.user, req.body)
+        console.log("in get tasks", req.user, req.params,req.query)
 
         userID = req.user[0].id;
 
-        let dateFrom = req.body.dateFrom;
-        let dateTo = req.body.dateTo;
+        let dateFrom = req.query.dateFrom;
+        let dateTo = req.query.dateTo;
         console.log("userId:", userID)
-        numPage = req.body.num;
+        numPage = req.query.num;
         let Tasks = {};
         let tasksList = [];
         try {
@@ -164,11 +164,14 @@ module.exports = {
             where "userID"='${userID}' and "status" is not NULL and "date_created">= '${dateFrom}' and "date_created"<='${dateTo}'
             order by deadline asc offset ${numPage * 10} limit 10`);
             console.log({ body: res.rows })
-            if (res.rows[0] !== undefined) {
-              
-                tasksList = res.rows;
+            if (res.rows[0] != undefined) {
+                Tasks = res.rows;
+                for (let i = 0; i < Tasks.length; i++) {
+                    Tasks[i].date_created = (Tasks[i].date_created).toISOString().slice(0, 10)
+                    Tasks[i].deadline = (Tasks[i].deadline).toISOString().slice(0, 10)
+                }
+                tasksList = Tasks;
             }
-
             console.log(tasksList);
             result.json({ info: tasksList });
         } catch (err) {
