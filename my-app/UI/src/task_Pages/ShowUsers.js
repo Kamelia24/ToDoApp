@@ -36,7 +36,10 @@ function ShowUsers() {
             });
     }, [])
     function getUsers(page) {
-        axios.post('http://localhost:5000/getUsers', { num: page }, {
+        axios.get('http://localhost:5000/getUsers', {
+            params:{
+                num: page
+            },
             headers: {
                 'Authorization': "Bearer " + localStorage.getItem("jwt")
             }
